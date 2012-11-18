@@ -1,0 +1,14 @@
+{
+  "name": "waterfront",
+  "version": "0.1.0",
+  "description": "generic robust message system",
+  "private": true,
+  "main": "./waterfront.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brock Whitten",
+  "dependencies": {
+    "axon":"0.4.6"
+  }
+}
