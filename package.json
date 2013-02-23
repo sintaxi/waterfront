@@ -1,7 +1,7 @@
 {
   "name": "waterfront",
-  "version": "0.2.0",
-  "description": "generic robust message system",
+  "version": "0.2.1",
+  "description": "generic robust message broker",
   "private": true,
   "main": "./waterfront.js",
   "scripts": {
