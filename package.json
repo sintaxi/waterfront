@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Brock Whitten",
+  "author": "Brock Whitten <brock@chloi.io>",
   "dependencies": {
     "axon":"0.4.6"
   }
