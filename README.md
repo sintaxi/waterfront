@@ -21,7 +21,7 @@ centralized component.
 
     var waterfront = require('waterfront').listen()
 
-### connect([ports] [,host])
+### connect(hostname)
 
     var waterfront = require('waterfront').connect()
 
@@ -36,7 +36,7 @@ emitter.
 
 #### push socket
 
-    var waterfront = require('socket').connect()
+    var waterfront = require('waterfront').connect()
     var sock       = waterfront.socket('push')
 
     setInterval(function(){
