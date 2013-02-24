@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var program    = require('commander')
+var pkg        = require('../package.json')
+var waterfront = require('../')
+
+program
+  .version(pkg.version)
+  .usage('[options]')
+  .option('-p, --port <port>', 'specify the port [4100]', Number, 4100)
+  .option('-H, --host <host>', 'specify the hostname [localhost]', String, "localhost")
+  .parse(process.argv)
+
+if(process.argv.length < 3){
+  program.help()
+}else{
+  waterfront.listen(program.port, program.host, function(portMap){
+    console.log("waterfront v" + pkg.version)
+    console.log("waterfront started on port", program.port, "and host \""+ program.host + "\" with the following portmap...")
+    console.log(JSON.stringify(portMap, null, 2))
+  })
+}
+
