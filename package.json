@@ -9,6 +9,6 @@
   },
   "author": "Brock Whitten <brock@chloi.io>",
   "dependencies": {
-    "axon":"0.4.6"
+    "axon":"0.5.0"
   }
 }
