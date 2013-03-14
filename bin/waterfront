@@ -27,7 +27,7 @@ program
   .option('-H, --host <host>', 'specify the hostname [localhost]', String, "localhost")
   .action(function(type, program){
     
-    var wf    = waterfront.connect()
+    var wf    = waterfront.connect(program.port, program.host)
     var sock  = wf.socket(type)
     
     switch(type){
@@ -94,14 +94,3 @@ if(program.args.length < 1){
   program.help()
 }
 
-// 
-// if(process.argv.length < 3){
-//   program.help()
-// }else{
-//   waterfront.listen(program.port, program.host, function(portMap){
-//     console.log("waterfront v" + pkg.version)
-//     console.log("waterfront started on port", program.port, "and host \""+ program.host + "\" with the following portmap...")
-//     console.log(JSON.stringify(portMap, null, 2))
-//   })
-// }
-// 
