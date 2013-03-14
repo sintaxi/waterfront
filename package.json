@@ -1,6 +1,6 @@
 {
   "name": "waterfront",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "a small but mighty message broker",
   "private": true,
   "main": "./waterfront.js",
@@ -12,5 +12,5 @@
     "axon":"0.5.0",
     "commander":"1.1.1"
   },
-  "bin": { "harp": "./bin/waterfront" }
+  "bin": { "waterfront": "./bin/waterfront" }
 }
