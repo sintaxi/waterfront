@@ -6,18 +6,102 @@ var waterfront = require('../')
 
 program
   .version(pkg.version)
-  .usage('[options]')
+
+program
+  .command('broker')
+  .description('start new message broker')
   .option('-p, --port <port>', 'specify the port [4100]', Number, 4100)
   .option('-H, --host <host>', 'specify the hostname [localhost]', String, "localhost")
-  .parse(process.argv)
-
-if(process.argv.length < 3){
-  program.help()
-}else{
-  waterfront.listen(program.port, program.host, function(portMap){
-    console.log("waterfront v" + pkg.version)
-    console.log("waterfront started on port", program.port, "and host \""+ program.host + "\" with the following portmap...")
-    console.log(JSON.stringify(portMap, null, 2))
+  .action(function(program){
+    waterfront.listen(program.port, program.host, function(portMap){
+       console.log("waterfront v" + pkg.version)
+       console.log("waterfront started on port", program.port, "and host \""+ program.host + "\" with the following portmap...")
+       console.log(JSON.stringify(portMap, null, 2))
+     })
   })
+  
+program
+  .command('agent <type>')
+  .description('spin up pub agent for testing')
+  .option('-p, --port <port>', 'specify the port [4100]', Number, 4100)
+  .option('-H, --host <host>', 'specify the hostname [localhost]', String, "localhost")
+  .action(function(type, program){
+    
+    var wf    = waterfront.connect()
+    var sock  = wf.socket(type)
+    
+    switch(type){
+      
+    case "pub": 
+      setInterval(function(){ 
+        sock.send({ pub: +new Date })
+      }, 200)
+    break;
+    
+    case "sub": 
+      sock.on("message", function(msg){ 
+        console.log(msg)
+      })
+    break;
+    
+    case "pub-emitter": 
+      setInterval(function(){
+        sock.emit( "vancouver", { "date": (+new Date) })
+      }, 500)
+    break;
+    
+    case "sub-emitter": 
+      sock.on('*', function(channel, data){
+        console.log(channel, data)
+      })
+    break;
+    
+    case "req": 
+      sock.send({ req: +new Date }, function(rep){
+        process.exit()
+      })
+    break;
+    
+    case "rep": 
+      sock.on('message', function(data, callback){
+        data.rep = +new Date
+        callback(data)
+      })
+    break;
+    
+    case "push": 
+      setInterval(function(){
+        process.stdout.write('.')
+        sock.send({ "date" : (+new Date) })
+      }, 200)
+    break;
+    
+    case "pull": 
+      sock.on("message", function(data){
+        console.log(data)
+      })
+    break;
+    
+    default:
+      console.log("not supported...")
+    }
+    
+  })
+
+program.parse(process.argv)
+
+if(program.args.length < 1){
+  program.help()
 }
 
+// 
+// if(process.argv.length < 3){
+//   program.help()
+// }else{
+//   waterfront.listen(program.port, program.host, function(portMap){
+//     console.log("waterfront v" + pkg.version)
+//     console.log("waterfront started on port", program.port, "and host \""+ program.host + "\" with the following portmap...")
+//     console.log(JSON.stringify(portMap, null, 2))
+//   })
+// }
+// 
