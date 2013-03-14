@@ -1,6 +1,6 @@
 {
   "name": "waterfront",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "a small but mighty message broker",
   "private": true,
   "main": "./waterfront.js",
