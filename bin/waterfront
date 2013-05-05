@@ -19,73 +19,75 @@ program
        console.log(JSON.stringify(portMap, null, 2))
      })
   })
-  
+
 program
   .command('agent <type>')
   .description('spin up pub agent for testing')
   .option('-p, --port <port>', 'specify the port [4100]', Number, 4100)
   .option('-H, --host <host>', 'specify the hostname [localhost]', String, "localhost")
   .action(function(type, program){
-    
+
     var wf    = waterfront.connect(program.port, program.host)
     var sock  = wf.socket(type)
-    
+
     switch(type){
-      
-    case "pub": 
-      setInterval(function(){ 
+
+    case "pub":
+      setInterval(function(){
         sock.send({ pub: +new Date })
       }, 200)
     break;
-    
-    case "sub": 
-      sock.on("message", function(msg){ 
+
+    case "sub":
+      sock.on("message", function(msg){
         console.log(msg)
       })
     break;
-    
-    case "pub-emitter": 
+
+    case "pub-emitter":
       setInterval(function(){
         sock.emit( "vancouver", { "date": (+new Date) })
       }, 500)
     break;
-    
-    case "sub-emitter": 
+
+    case "sub-emitter":
       sock.on('*', function(channel, data){
         console.log(channel, data)
       })
     break;
-    
-    case "req": 
+
+    case "req":
       sock.send({ req: +new Date }, function(rep){
+        console.log(rep)
         process.exit()
       })
     break;
-    
-    case "rep": 
+
+    case "rep":
       sock.on('message', function(data, callback){
         data.rep = +new Date
+        console.log(data)
         callback(data)
       })
     break;
-    
-    case "push": 
+
+    case "push":
       setInterval(function(){
         process.stdout.write('.')
         sock.send({ "date" : (+new Date) })
       }, 200)
     break;
-    
-    case "pull": 
+
+    case "pull":
       sock.on("message", function(data){
         console.log(data)
       })
     break;
-    
+
     default:
       console.log("not supported...")
     }
-    
+
   })
 
 program.parse(process.argv)
