@@ -2,7 +2,6 @@
   "name": "waterfront",
   "version": "0.4.1",
   "description": "a small but mighty message broker",
-  "private": true,
   "main": "./waterfront.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
