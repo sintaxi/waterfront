@@ -34,7 +34,8 @@ program
 
     case "pub":
       setInterval(function(){
-        sock.send({ pub: +new Date })
+        process.stdout.write(".")
+        sock.send({ "time": (+new Date) })
       }, 200)
     break;
 
