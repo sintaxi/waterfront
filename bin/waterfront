@@ -67,7 +67,6 @@ program
     case "rep":
       sock.on('message', function(data, callback){
         data.rep = +new Date
-        console.log(data)
         callback(data)
       })
     break;
