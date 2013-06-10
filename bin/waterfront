@@ -69,9 +69,7 @@ program
     case "rep":
       sock.on('message', function(data, callback){
         data.end = +new Date
-        setTimeout(function(){
-          callback(data)
-        }, 3000)
+        callback(data)
       })
     break;
 
