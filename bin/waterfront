@@ -58,7 +58,9 @@ program
     break;
 
     case "req":
-      sock.send({ req: +new Date }, function(rep){
+      var payload = { start: +new Date }
+      console.log(payload)
+      sock.send(payload, function(rep){
         console.log(rep)
         process.exit()
       })
@@ -66,8 +68,10 @@ program
 
     case "rep":
       sock.on('message', function(data, callback){
-        data.rep = +new Date
-        callback(data)
+        data.end = +new Date
+        setTimeout(function(){
+          callback(data)
+        }, 3000)
       })
     break;
 
