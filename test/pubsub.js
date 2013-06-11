@@ -12,17 +12,22 @@ describe("pubsub", function(){
     })
   })
 
-  it("should be done", function(done){
-    var pub = connection.socket('pub')
-    var sub = connection.socket('sub')
+  it("should be recieve messages", function(done){
+    var pub   = connection.socket('pub')
+    var sub   = connection.socket('sub')
+    var count = 0
+
+    var poll = setInterval(function(){
+      pub.send("message", { "location": "vancouver" })
+    }, 1)
 
     sub.on("message", function(){
-      done()
+      count ++
+      if(count == 100){
+        clearInterval(poll)
+        done()
+      }
     })
-
-    setTimeout(function(){
-      pub.send("message", { "location": "vancouver"})
-    }, 25)
 
   })
 
