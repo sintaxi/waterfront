@@ -13,11 +13,7 @@ program
   .option('-p, --port <port>', 'specify the port [4100]', Number, 4100)
   .option('-H, --host <host>', 'specify the hostname [localhost]', String, "localhost")
   .action(function(program){
-    waterfront.listen(program.port, program.host, function(portMap){
-      console.log("waterfront v" + pkg.version)
-      console.log("waterfront started on port", program.port, "and host \""+ program.host + "\" with the following portmap...")
-      console.log(JSON.stringify(portMap, null, 2))
-    })
+    waterfront.listen(program.port, program.host)
   })
 
 program

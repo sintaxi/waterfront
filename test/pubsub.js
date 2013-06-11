@@ -8,9 +8,7 @@ describe("pubsub", function(){
 
   before(function(done){
     waterfront.listen(port, host, function(){
-      setTimeout(function(){
-        done()
-      }, 25)
+      done()
     })
   })
 
