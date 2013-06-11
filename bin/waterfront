@@ -36,6 +36,7 @@ program
       setInterval(function(){
         process.stdout.write(".")
         sock.send({ "time": (+new Date) })
+        //sock.send("vancouver", { "date": (+new Date) })
       }, 200)
     break;
 
@@ -47,7 +48,8 @@ program
 
     case "pub-emitter":
       setInterval(function(){
-        sock.emit( "vancouver", { "date": (+new Date) })
+        process.stdout.write(".")
+        sock.emit("vancouver", { "date": (+new Date) })
       }, 500)
     break;
 

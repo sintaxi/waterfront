@@ -2,15 +2,14 @@
 
 ## description
 
-A generic message broker system on top of `axon` with discovery patterns for
-push/pull, req/rep, pub/sub, pub-emitter/sub-emitter.
+A message broker system built on ZeroMQ with discovery patterns for
+push/pull, req/rep, pub/sub.
 
 ## why waterfront?
 
-Axon provides low level building blocks for designing messaging patterns.
-Although easy to build, all the ports to bind and connect to can be difficult
-to keep track of. Waterfront provides a simple robust messaging pattern with
-detailt ports.
+Messaging libraries provide low level building blocks for designing messaging patterns.
+Although fairly easy to build, all the ports to bind and connect to can be difficult
+to keep track of when managing intermediaries in prodiction. Waterfront provides a simple robust messaging broker/client to make it easier to build distributed systems.
 
 ## usage
 
@@ -28,8 +27,7 @@ centralized component.
 ### socket(type)
 
 socket returns an axon socket based on the type that is passed in. possible
-values for `type` are: push, pull, req, rep, pub, sub, pub-emitter, sub-
-emitter.
+values for `type` are: push, pull, req, rep, pub, sub.
 
     var waterfront = require('waterfront').connect()
     var sock       = waterfront.socket("push")
@@ -48,7 +46,7 @@ emitter.
     var waterfront = require('waterfront').connect()
     var sock       = waterfront.socket('pull')
 
-    sock.on("message", function(data){
+    sock.on('message', function(data){
       console.log(data)
     })
 
@@ -78,7 +76,7 @@ emitter.
     var sock       = waterfront.socket("pub")
 
     setInterval(function(){
-      sock.send({ pub: +new Date })
+      sock.send('message', { pub: +new Date })
     }, 200)
 
 #### sub socket
@@ -86,24 +84,7 @@ emitter.
     var waterfront = require('waterfront').connect()
     var sock       = waterfront.socket("sub")
 
-    sock.on("message", function(msg){
+    sock.on('message', function(msg){
       console.log(msg)
     })
 
-#### pub-emitter socket
-
-    var waterfront = require('waterfront').connect()
-    var sock       = waterfront.socket('pub-emitter')
-
-    setInterval(function(){
-      sock.emit( "vancouver", { "date": (+new Date) })
-    }, 500)
-
-#### sub-emitter socket
-
-    var waterfront = require('waterfront').connect()
-    var sock       = waterfront.socket('sub-emitter')
-
-    sock.on('*', function(channel, data){
-      console.log(channel, data)
-    })
