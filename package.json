@@ -4,7 +4,7 @@
   "description": "a small but mighty message broker",
   "main": "./waterfront.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha -R spec"
   },
   "author": "Brock Whitten <brock@chloi.io>",
   "dependencies": {
