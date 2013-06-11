@@ -4,7 +4,7 @@ var port        = 9100
 var host        = "localhost"
 var connection  = waterfront.connect(port, host)
 
-describe("pubsub", function(){
+describe("pub/sub", function(){
 
   before(function(done){
     waterfront.listen(port, host, function(){
