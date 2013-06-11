@@ -13,8 +13,8 @@ describe("router/dealer", function(){
   })
 
   it("should be recieve messages", function(done){
-    var req    = connection.socket('req')
-    var rep    = connection.socket('rep')
+    var req = connection.socket('req')
+    var rep = connection.socket('rep')
 
     rep.on("message", function(msg, callback){
       msg.hello = msg.hello.toUpperCase()
