@@ -7,7 +7,7 @@ var connection  = waterfront.connect(port, host)
 describe("push/pull", function(){
 
   before(function(done){
-    waterfront.listen(port, host, function(){
+    waterfront.listen(port, host, function(err){
       done()
     })
   })
