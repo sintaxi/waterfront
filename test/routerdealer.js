@@ -64,14 +64,17 @@ describe("router/dealer", function(){
       })
 
       waterfront.listen(port, host, function(){
-        var rep = connection.socket('rep')
-        rep.on("message", function(msg, callback){
-          msg.hello = msg.hello.toUpperCase()
-          callback(msg)
-        })
+        setTimeout(function(){
+          var rep = connection.socket('rep')
+          rep.on("message", function(msg, callback){
+            msg.hello = msg.hello.toUpperCase()
+            callback(msg)
+          })
+        }, 500)
       })
 
     })
+
   })
 
 })
