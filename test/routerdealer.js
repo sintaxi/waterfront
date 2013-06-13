@@ -2,6 +2,7 @@ var should      = require("should")
 var waterfront  = require("../")
 
 describe("router/dealer", function(){
+
   describe("messaging", function(){
     var port        = 9300
     var host        = "localhost"
@@ -13,26 +14,51 @@ describe("router/dealer", function(){
       })
     })
 
-    it("should be recieve messages", function(done){
-      var req = connection.socket('req')
-      var rep = connection.socket('rep')
+    // it("should be able to do rpc", function(done){
+    //   var req = connection.socket('req')
+    //   var rep = connection.socket('rep')
+
+    //   rep.on("message", function(msg, callback){
+    //     msg.hello = msg.hello.toUpperCase()
+    //     callback(msg)
+    //   })
+
+    //   req.send({ hello: "world" }, function(msg){
+    //     msg.hello.should.eql("WORLD")
+    //     done()
+    //   })
+    // })
+
+    it("should be able to exchange several requests", function(done){
+      var req   = connection.socket('req')
+      var rep   = connection.socket('rep')
+      var count = 0
+      var total = 50
 
       rep.on("message", function(msg, callback){
-        msg.hello = msg.hello.toUpperCase()
+        msg.result = msg.num * 2
         callback(msg)
       })
 
-      req.send({ hello: "world" }, function(msg){
-        msg.hello.should.eql("WORLD")
-        done()
-      })
+      for(var i=0; i < 50; i++)(function(i){
+        req.send({ num: i }, function(msg){
+          msg.num.should.eql(i)
+          msg.result.should.eql(i * 2)
+          count ++
+          if(count == total){
+            done()
+          }
+        })
+      })(i)
+
     })
+
   })
 
 
 
   describe("connection", function(){
-    it("should be able to send message before broker binds", function(done){
+    it("should not lose messages if broker is late binding", function(done){
       var port        = 9400
       var host        = "localhost"
       var connection  = waterfront.connect(port, host)
@@ -49,10 +75,13 @@ describe("router/dealer", function(){
         done()
       })
 
-      waterfront.listen(port, host)
+      setTimeout(function(){
+        waterfront.listen(port, host)
+      }, 500)
+
     })
 
-    it("should be able to send request before client connects", function(done){
+    it("should not lose messages if worker is late connecting", function(done){
       var port        = 9410
       var host        = "localhost"
       var connection  = waterfront.connect(port, host)
@@ -72,7 +101,6 @@ describe("router/dealer", function(){
           })
         }, 500)
       })
-
     })
 
   })
