@@ -77,7 +77,7 @@ describe("router/dealer", function(){
 
       setTimeout(function(){
         waterfront.listen(port, host)
-      }, 500)
+      }, 200)
 
     })
 
@@ -99,7 +99,7 @@ describe("router/dealer", function(){
             msg.hello = msg.hello.toUpperCase()
             callback(msg)
           })
-        }, 500)
+        }, 200)
       })
     })
 

@@ -66,6 +66,7 @@ program
 
     case "rep":
       sock.on('message', function(data, callback){
+        process.stdout.write("R")
         data.end = +new Date
         callback(data)
       })
@@ -76,6 +77,7 @@ program
         process.stdout.write('.')
         sock.send({ "date" : (+new Date) })
       }, 200)
+      sock.send({ "date" : (+new Date) })
     break;
 
     case "pull":
