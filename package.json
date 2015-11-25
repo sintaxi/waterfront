@@ -8,7 +8,7 @@
   },
   "author": "Brock Whitten <brock@chloi.io>",
   "dependencies": {
-    "zmq": "2.4.0",
+    "zmq": "2.10.0",
     "commander":"1.1.1",
     "debug": "0.7.2"
   },
