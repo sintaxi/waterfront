@@ -1,7 +1,6 @@
 var waterfront = require("../").connect()
 var sock       = waterfront.socket('req')
 
-sock.send({ req: +new Date }, function(rep){
-  console.log(rep)
-  process.exit()
-});
+setInterval(function(){
+  sock.send({ req: +new Date }, console.log);
+}, 1000)
